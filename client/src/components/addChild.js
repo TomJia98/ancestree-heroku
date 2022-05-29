@@ -46,16 +46,10 @@ const AddChild = (props) => {
   });
 
   const handleMultiChange = (e) => {
-    console.log(e);
-    console.log(e.label);
     setSelectVal(e.label);
-    console.log(selectVal);
     if (!options.find((x) => x.value === e.value)) {
-      console.log("parent not found, creating new");
-      console.log(e.value);
       //if the selected name is new
       setNewParentName(e.value);
-      console.log(newParentName);
       return;
       //create new person based on the new inputted name, and save them as a parent to the child being added
     }
@@ -155,7 +149,6 @@ const AddChild = (props) => {
           variables: { ...formState },
         });
         let newChildActual = newChild.data.addPerson;
-        console.log(newChild);
         for (let i = 0; i < newChildActual.parents.length; i++) {
           const parentToAdd = await updatePersonRels({
             variables: {
@@ -163,8 +156,6 @@ const AddChild = (props) => {
               children: newChildActual._id,
             },
           });
-          console.log(parentToAdd);
-          console.log("here is parents to add result");
         }
         setError("");
         setNewParentName(null);
@@ -178,7 +169,7 @@ const AddChild = (props) => {
           isClose: false,
         });
         props.addChildHide();
-        window.location.reload();
+        props.refresh();
       }
     } catch (e) {
       console.error(e);

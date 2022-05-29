@@ -14,7 +14,11 @@ const Main = () => {
   const [isGraphFinished, setIsGraph] = useState(false);
   const personId = user.data.person;
 
-  const { loading: allLoading, data: allData } = useQuery(QUERY_PERSONS);
+  const {
+    loading: allLoading,
+    data: allData,
+    refetch,
+  } = useQuery(QUERY_PERSONS);
 
   const { loading, data: userData } = useQuery(QUERY_SINGLE_PERSON, {
     variables: { personId },
@@ -26,6 +30,10 @@ const Main = () => {
     nodes: [],
     edges: [],
   });
+  const refresh = async () => {
+    await refetch();
+    setIsGraph(false);
+  };
 
   if (allData && !isGraphFinished) {
     const allPeople = allData.persons;
@@ -87,7 +95,7 @@ const Main = () => {
       {Auth.loggedIn() ? (
         <>
           <div id="mainSpace"> </div>
-          <SinglePersonInfo current={selectedNode} />
+          <SinglePersonInfo current={selectedNode} refresh={refresh} />
           {isGraphFinished ? (
             <Graph
               id="graph"

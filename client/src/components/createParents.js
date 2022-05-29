@@ -53,8 +53,8 @@ const CreateParents = (props) => {
     const addingParents = await updatePersonRels({
       variables: { _ID: props.personId, parents: parentsArr },
     });
-    console.log(addingParents);
-    window.location.reload();
+
+    props.refresh();
   };
 
   return (

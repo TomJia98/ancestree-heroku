@@ -30,7 +30,7 @@ const EditPerson = (props) => {
       const updatingPerson = await updatePerson({
         variables: { ...formState, _ID: props.personId },
       });
-      window.location.reload();
+      props.refresh();
     } catch (e) {
       console.error(e);
     }

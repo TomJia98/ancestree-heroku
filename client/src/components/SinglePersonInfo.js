@@ -12,7 +12,6 @@ import codeGenerator from "../utils/codeGenerator";
 const SinglePersonInfo = (props) => {
   let [ISADDCHILD, setISADDCHILD] = useState(false);
   let [ISEDIT, setISEDIT] = useState(false);
-  let [hasParents, sethasParents] = useState();
   let [currentLinkCode, setCurrentLinkCode] = useState();
 
   const { loading: NIDLoading, data: NIDData } = useQuery(
@@ -83,6 +82,7 @@ const SinglePersonInfo = (props) => {
               {" "}
               <button onClick={setAllFalse}>Add Parents</button>
               <CreateParents
+                refresh={props.refresh}
                 isActive={ISADDCHILD || ISEDIT}
                 personId={data.person._id}
                 createdBy={data.person.createdBy}
@@ -111,6 +111,7 @@ const SinglePersonInfo = (props) => {
           {ISADDCHILD ? (
             <>
               <AddChild
+                refresh={props.refresh}
                 personId={data.person._id}
                 addChildHide={addChildShow}
                 personsIdAndNameArr={NIDData}
@@ -123,6 +124,7 @@ const SinglePersonInfo = (props) => {
           {ISEDIT ? (
             <>
               <EditPerson
+                refresh={props.refresh}
                 personId={data.person._id}
                 name={data.person.name}
                 deathDate={data.person.deathDate}
