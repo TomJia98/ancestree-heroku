@@ -1,0 +1,190 @@
+
+body {
+    margin-top: 13.5rem;
+    color: #999;
+    font: 400 16px/1.5 exo, ubuntu, "segoe ui", helvetica, arial, sans-serif;
+    text-align: center;
+    /* img size is 50x50 */
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAIAAACRXR/mAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAABnSURBVHja7M5RDYAwDEXRDgmvEocnlrQS2SwUFST9uEfBGWs9c97nbGtDcquqiKhOImLs/UpuzVzWEi1atGjRokWLFi1atGjRokWLFi1atGjRokWLFi1af7Ukz8xWp8z8AAAA//8DAJ4LoEAAlL1nAAAAAElFTkSuQmCC") repeat 0 0;
+    -webkit-animation: bg-scrolling-reverse 0.92s infinite;
+    /* Safari 4+ */
+    -moz-animation: bg-scrolling-reverse 0.92s infinite;
+    /* Fx 5+ */
+    -o-animation: bg-scrolling-reverse 0.92s infinite;
+    /* Opera 12+ */
+    animation: bg-scrolling-reverse 0.92s infinite;
+    /* IE 10+ */
+    -webkit-animation-timing-function: linear;
+    -moz-animation-timing-function: linear;
+    -o-animation-timing-function: linear;
+    animation-timing-function: linear;
+  }
+
+  footer{
+position:relative;
+top: 300px;
+  }
+
+
+  button {
+background-color: white;
+    padding: 5px;
+  }
+button:hover{
+
+  background-color: rgb(131, 128, 128, 0.5);
+}
+.goBack{
+  position:fixed;
+  left:400px;
+  top: 60px;
+  border: solid black 2px;
+  color: black;
+  font-family: 'Lucida Grande';
+
+  text-decoration: none;
+  padding: 5px;
+
+}
+.goBack:hover{
+  background-color: rgb(131, 128, 128, 0.5);
+
+}
+.link{
+  border: solid black 2px;
+  color: black;
+  text-decoration: none;
+  padding: 5px;
+}
+.link:hover{background-color: rgb(131, 128, 128, 0.5);}
+
+.submitButton{
+  background-color: white;
+  padding: 5px;
+}
+.submitButton:hover{
+  background-color: rgb(131, 128, 128, 0.5);
+}
+  p {
+    color:black;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2em;
+  }
+  .editButtons {
+
+    position:relative;
+    left:300px;
+    bottom:150px;
+  }
+#editPerson{
+    display: inline;
+    position: fixed;
+    right: 20px;
+    top:70px;
+}
+
+#createParents{ 
+  display: inline;
+  position: fixed;
+  right: 20px;
+  top:70px;}
+
+#addChild {
+  display: inline;
+  position: fixed;
+  right: 20px;
+  top:70px;
+}
+  
+#title {
+    font-family: 'Kanit', sans-serif;
+    font-size: 3.2em;
+    text-align: center;
+    display: inline;
+    position: fixed;
+  right:44%;
+    top: 0px;
+
+}
+#mainSpace {
+  padding: 50px;
+  margin-bottom: 100px;
+
+}
+.log {
+    display: inline;
+    position: fixed;
+    right:400px;
+    top: 60px;
+    font-family: 'Lucida Grande';
+    border: solid black 2px;
+    color: black;
+    text-decoration: none;
+    padding: 5px;
+}
+.log:hover{  background-color: rgb(131, 128, 128, 0.5);
+}
+#singlePersonInfo {
+
+    display: inline-block;
+    position:absolute;
+top: 50px;
+left: 10px;
+margin-bottom: 200px;
+
+}
+label {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.4em;
+  color:black;
+}
+
+#landing {
+
+    text-align: center;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Exo:100);
+/* Background data (Original source: https://subtlepatterns.com/grid-me/) */
+/* Animations */
+@-webkit-keyframes bg-scrolling-reverse {
+  100% {
+    background-position: 50px 50px;
+  }
+}
+@-moz-keyframes bg-scrolling-reverse {
+  100% {
+    background-position: 50px 50px;
+  }
+}
+@-o-keyframes bg-scrolling-reverse {
+  100% {
+    background-position: 50px 50px;
+  }
+}
+@keyframes bg-scrolling-reverse {
+  100% {
+    background-position: 50px 50px;
+  }
+}
+@-webkit-keyframes bg-scrolling {
+  0% {
+    background-position: 50px 50px;
+  }
+}
+@-moz-keyframes bg-scrolling {
+  0% {
+    background-position: 50px 50px;
+  }
+}
+@-o-keyframes bg-scrolling {
+  0% {
+    background-position: 50px 50px;
+  }
+}
+@keyframes bg-scrolling {
+  0% {
+    background-position: 50px 50px;
+  }
+}
+/* Main styles */
