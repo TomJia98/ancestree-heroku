@@ -7,22 +7,6 @@ const customScalarResolver = {
   Date: GraphQLDateTime,
 };
 
-// function alsoContains(a, b) {
-//   for (var i = 0; i < a.length; i++) if (a[i] != b[i]) return false;
-//   return true;
-// }
-
-// function isEqual(a, b) {
-//   // If length is not equal
-//   if (a.length != b.length) return false;
-//   else {
-//     // Comparing each element of array
-//     for (var i = 0; i < a.length; i++) if (a[i] != b[i]) return false;
-//     return true;
-//   }
-// }
-//old functions, might be used later
-
 const resolvers = {
   Query: {
     persons: async (parent, args, context) => {
@@ -246,36 +230,18 @@ const resolvers = {
         return new Error("user not logged in!");
       }
       const findPerson = await Person.findOne({ _id: _ID });
-      if (findPerson.children.length === 0 && findPerson.parents.length === 0) {
-        await findOneAndDelete({ _id: _ID });
-        return `${findPerson.name} has been deleted with all traces`;
-      } else if (
-        findPerson.children.length === 0 &&
-        findPerson.parents.length !== 0
-      ) {
-        const parents = findPerson.parents;
-        console.log(parents);
-        for (let i = 0; i < parents.length; i++) {
+      if (findPerson.children.length === 0) {
+        for (let i = 0; i < findPerson.parents.length; i++) {
           await Person.findOneAndUpdate(
-            { _id: parents[i] },
             {
-              $pull: {
-                children: { _id: _ID },
-              },
-            }
-          ); //go through the selected person to delete and scrub them from their parents children array
+              _id: findPerson.parents[i],
+            },
+            { $pull: { children: findPerson._id } }
+          );
         }
-        return `${findPerson.name} has been deleted with all traces`;
-      } else if (findPerson.children.length !== 0) {
-        await Person.findOneAndUpdate({
-          name: "",
-          deathDate: "",
-          birthday: "",
-          isclose: false,
-          isLinked: false,
-        });
-        return `${findPerson.name}'s details have been removed, but links kept intact`;
-      }
+        await Person.findOneAndDelete({ _id: _ID });
+        return "deleted";
+      } else return "need to remove children first";
     },
     login: async (parent, { email, password }, context) => {
       const user = await User.findOne({ email });

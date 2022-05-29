@@ -4,6 +4,7 @@ import {
   ADD_PERSON,
   UPDATE_PERSON,
   UPDATE_CHILDREN_AND_PARENTS,
+  DELETE_PERSON,
 } from "../utils/mutations";
 
 const EditPerson = (props) => {
@@ -14,7 +15,23 @@ const EditPerson = (props) => {
     birthday: props.birthday,
     isClose: props.isClose,
   });
+  const [deletePerson, { error: delError }] = useMutation(DELETE_PERSON);
+  const [displayError, setDisplayError] = useState("");
 
+  const deleteById = async () => {
+    try {
+      const deleteThisPerson = await deletePerson({
+        variables: { _ID: props.personId },
+      });
+      if (
+        deleteThisPerson.data.deletePerson === "need to remove children first"
+      ) {
+        setDisplayError("Deleted person must not have children");
+      } else props.refresh();
+    } catch (e) {
+      console.error(e);
+    }
+  };
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -44,7 +61,7 @@ const EditPerson = (props) => {
           Name:
           <input
             className="form-input"
-            placeholder="Childs Name"
+            placeholder="Name"
             name="name"
             type="text"
             value={formState.name}
@@ -89,6 +106,9 @@ const EditPerson = (props) => {
         <br></br>
         <button type="submit">Update Person</button>
       </form>
+      <br></br>
+      <button onClick={deleteById}>Delete Person</button>
+      <p>{displayError}</p>
     </span>
   );
 };
