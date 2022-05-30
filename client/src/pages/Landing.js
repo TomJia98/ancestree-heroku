@@ -18,7 +18,7 @@ const Landing = () => {
   return (
     <main id="landing">
       <h2>Welcome to AncesTree</h2>
-      <p>The collaboratively expandable ancestory viewer</p>
+      <p>The collaboratively expandable ancestry viewer</p>
       {Auth.loggedIn() ? (
         <>
           <Link to="/main" className="link">
