@@ -5,6 +5,7 @@ function Header() {
   const isLogged = Auth.loggedIn();
 
   const logout = () => {
+    //the logout function, only shows if user is logged in
     Auth.logout();
     window.location.href = "/";
   };

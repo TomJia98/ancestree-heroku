@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ADD_PERSON, UPDATE_CHILDREN_AND_PARENTS } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
-
+//imports
 const CreateParents = (props) => {
   const [formState, setFormState] = useState({
     name1: "",
@@ -14,10 +14,11 @@ const CreateParents = (props) => {
 
   const [updatePersonRels, { error: updateRelsError }] = useMutation(
     UPDATE_CHILDREN_AND_PARENTS
-  );
+  ); //mutations and states
 
-  const isActive = props.isActive;
+  const isActive = props.isActive; //defining a prop for easier use
   const handleChange = (event) => {
+    //for the form changing
     const { name, value } = event.target;
 
     setFormState({
@@ -26,6 +27,7 @@ const CreateParents = (props) => {
     });
   };
   const handleFormSubmit = async (event) => {
+    //create two new parents linked to the current node
     event.preventDefault();
     const parent1 = await createPerson({
       variables: {
@@ -44,10 +46,11 @@ const CreateParents = (props) => {
     const parentsArr = [parent1.data.addPerson._id, parent2.data.addPerson._id];
 
     const addingParents = await updatePersonRels({
+      //update the current node with the parents
       variables: { _ID: props.personId, parents: parentsArr },
     });
 
-    props.refresh();
+    props.refresh(); //refresh graph on success
   };
 
   return (

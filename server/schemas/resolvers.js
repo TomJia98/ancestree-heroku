@@ -22,11 +22,12 @@ const resolvers = {
     },
     users: async (parent, args, context) => {
       const users = await User.find();
-      return users;
+      return users; //only used for checking data, not used in full deploy
     },
   },
   Mutation: {
     createLink: async (
+      //createing the linking code
       parent,
       { linkingCode, userWhoIsLinking, linkedToPerson },
       context
@@ -48,6 +49,8 @@ const resolvers = {
     },
 
     acceptLink: async (parent, { linkingCode }) => {
+      //accepting the linking code, then deleting it and sending its
+      //data to the user for account creation
       try {
         const findLink = await LinkingCode.findOne({ linkingCode });
         if (!findLink) {
@@ -128,6 +131,7 @@ const resolvers = {
     },
 
     updateRelations: async (parent, { _ID, children, parents }, context) => {
+      //just for adding parents and children
       const userId = context.user._id;
       if (!userId) {
         return new Error("user is not logged in");
@@ -153,6 +157,7 @@ const resolvers = {
     },
 
     updatePerson: async (
+      //for changing person info
       parent,
       { _ID, name, deathDate, birthday, parents, children, isClose },
       context
@@ -200,6 +205,7 @@ const resolvers = {
 
         console.log("creating new user named " + name);
         const newPerson = await Person.create({
+          //create the users person before the user
           name,
           birthday,
           isLinked: true,
@@ -208,6 +214,7 @@ const resolvers = {
         const id = newPerson._id.toString();
 
         const user = await User.create({
+          //create the user and link to their person
           name,
           email,
           password,
@@ -225,7 +232,7 @@ const resolvers = {
         return { token, user };
       } catch (err) {
         console.log(err);
-        console.log("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+
         return err;
       }
     },
@@ -247,7 +254,7 @@ const resolvers = {
         }
         await Person.findOneAndDelete({ _id: _ID });
         return "deleted";
-      } else return "need to remove children first";
+      } else return "need to remove children first"; //cant delete users with history otherwise it leaves traces in the data
     },
     login: async (parent, { email, password }, context) => {
       const user = await User.findOne({ email });

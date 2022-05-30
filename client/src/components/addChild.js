@@ -7,7 +7,7 @@ import {
   UPDATE_CHILDREN_AND_PARENTS,
 } from "../utils/mutations";
 import CreatableSelect from "react-select/creatable";
-
+//imports
 const AddChild = (props) => {
   const [newParentName, setNewParentName] = useState(null);
   const [formState, setFormState] = useState({
@@ -19,9 +19,7 @@ const AddChild = (props) => {
     isClose: false,
     createdBy: props.createdBy,
   });
-
   const [selectVal, setSelectVal] = useState("");
-
   const [error, setError] = useState("");
 
   const { loading: allLoading, data: allData } = useQuery(QUERY_PERSONS);
@@ -31,13 +29,22 @@ const AddChild = (props) => {
       variables: { personId: props.personId },
     }
   );
-  const namesAndIds = props.personsIdAndNameArr.persons;
+
+  //setting states and queries
+  const namesAndIds = props.personsIdAndNameArr.persons; //defining a prop for easier user
   let options = [];
   namesAndIds.forEach((el) => {
     //add the ids and names of the current people to the options for the drop down
     const obj = { value: el._id, label: el.name };
     options.push(obj);
   });
+
+  const [createPerson, { error: addError }] = useMutation(ADD_PERSON);
+  const [updatePerson, { error: updateError }] = useMutation(UPDATE_PERSON);
+  const [updatePersonRels, { error: updateRelsError }] = useMutation(
+    UPDATE_CHILDREN_AND_PARENTS
+  );
+  //defining mutations
 
   const handleMultiChange = (e) => {
     setSelectVal(e.label);
@@ -49,14 +56,8 @@ const AddChild = (props) => {
     }
     setFormState({ ...formState, parents: [e.value, props.personId] });
   };
-
-  const [createPerson, { error: addError }] = useMutation(ADD_PERSON);
-  const [updatePerson, { error: updateError }] = useMutation(UPDATE_PERSON);
-  const [updatePersonRels, { error: updateRelsError }] = useMutation(
-    UPDATE_CHILDREN_AND_PARENTS
-  );
-
   const handleChange = (event) => {
+    //sets the current data in the form
     const { name, value } = event.target;
 
     setFormState({
@@ -69,6 +70,7 @@ const AddChild = (props) => {
     event.preventDefault();
 
     if (formState.parents.length === 0 && !newParentName) {
+      //if no parent is selected, send error
       setError("Child must have a parent");
       setTimeout(() => {
         setError("");
@@ -133,7 +135,7 @@ const AddChild = (props) => {
           isClose: false,
         });
         props.addChildHide(); //close the add child section upon completion
-      } //create new parent and new child complete, below need to do for existing parent
+      } //create new parent and new child complete,
       else {
         const newChild = await createPerson({
           variables: { ...formState },
@@ -159,7 +161,7 @@ const AddChild = (props) => {
           isClose: false,
         });
         props.addChildHide();
-        props.refresh();
+        props.refresh(); //clear the form and refresh the graph on completion
       }
     } catch (e) {
       console.error(e);

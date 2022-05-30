@@ -6,7 +6,7 @@ import { QUERY_SINGLE_PERSON, QUERY_PERSONS } from "../utils/queries";
 import Graph from "react-graph-vis";
 import Auth from "../utils/auth";
 import SinglePersonInfo from "../components/SinglePersonInfo";
-
+//imports
 const Main = () => {
   const user = Auth.getProfile();
   const [selectedNode, setSelectedNode] = useState(""); //add the logged in users person here as default
@@ -23,24 +23,28 @@ const Main = () => {
   const { loading, data: userData } = useQuery(QUERY_SINGLE_PERSON, {
     variables: { personId },
   });
-
-  let [graphKey, setGraphKey] = useState(uuidv4);
+  let [graphKey, setGraphKey] = useState(uuidv4); //for the graphs seed
 
   let [graph, setGraph] = useState({
     nodes: [],
     edges: [],
   });
+  //setting states
+
   const refresh = async () => {
+    //for refreshing the graph
     await refetch();
     setIsGraph(false);
   };
 
   if (allData && !isGraphFinished) {
+    //checking the graph hasnt been rendered yet and the data has been called
     const allPeople = allData.persons;
     const peopleNodeArr = [];
     const peopleEdgeArr = [];
 
     allPeople.forEach((el) => {
+      //looping through all the users and adding them to the graph
       let personNode;
       if (el.isLinked) {
         personNode = { id: el._id, label: el.name, color: "red" };
@@ -50,6 +54,7 @@ const Main = () => {
       peopleNodeArr.push(personNode);
       let personEdge = [];
       for (let i = 0; i < el.children.length; i++) {
+        //adding the edges to the graph
         let edge = { from: el._id, to: el.children[i] };
         personEdge.push(edge);
       }
@@ -62,6 +67,7 @@ const Main = () => {
   }
 
   const options = {
+    //graph options
     layout: {
       hierarchical: {
         direction: "UD",
@@ -77,8 +83,8 @@ const Main = () => {
   };
 
   const events = {
-    //add selection criteria to not switch if clicking away from a node
     select: function (event) {
+      //changes the current person based on the clicked node
       var { nodes, edges } = event;
       console.log(nodes[0]);
       if (nodes[0] === undefined) {

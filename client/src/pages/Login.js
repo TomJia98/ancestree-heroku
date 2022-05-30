@@ -10,8 +10,10 @@ const Login = (props) => {
   let [errorLogin, setErrorLogin] = useState("");
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [login, { error, data }] = useMutation(LOGIN_USER);
+  //setting up states and mutations
 
   const handleChange = (event) => {
+    //sets the changed date to the formstate
     const { name, value } = event.target;
     setFormState({
       ...formState,
@@ -28,14 +30,14 @@ const Login = (props) => {
 
       Auth.login(data.login.token);
       window.location.href = "/main";
-      setErrorLogin();
+      setErrorLogin(); //if the login was successful, sends to the tree and clears errors
     } catch (e) {
       setErrorLogin("invalid login credentials");
       setTimeout(() => {
         setErrorLogin("");
       }, 1000);
       console.error(e);
-    }
+    } //if unsuccessful, shows error briefly
     setFormState({
       email: "",
       password: "",

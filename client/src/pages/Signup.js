@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { ADD_USER } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
-
+//imports
 const Signup = (props) => {
   const [formState, setFormState] = useState({
     name: "",
@@ -17,8 +17,9 @@ const Signup = (props) => {
     console.log(mutError);
   }
   let [errorSignup, setErrorSignup] = useState("");
-
+  //setting states and mutations
   const handleChange = (event) => {
+    //handles state change
     const { name, value } = event.target;
 
     setFormState({
@@ -33,13 +34,12 @@ const Signup = (props) => {
       const response = await createUser({
         variables: { ...formState },
       });
-      console.log(response);
       if (!response.data) {
         throw new Error("something went wrong!");
       }
       Auth.login(response.data.addUser.token);
     } catch (e) {
-      setErrorSignup("User with that email already exists");
+      setErrorSignup("User with that email already exists"); //error for duplicate emails
       setTimeout(() => {
         setErrorSignup("");
       }, 1000);
