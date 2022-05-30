@@ -4,7 +4,7 @@
 
 ## Description
 
-This is a MERN full stack web application that provides people a collaborativly expandable ancestory creator
+This is a MERN full stack web application that provides people a collaborativly expandable ancestry creator
 
 ## Table of Contents
 
