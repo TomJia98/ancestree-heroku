@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import {
-  ADD_PERSON,
-  UPDATE_PERSON,
-  UPDATE_CHILDREN_AND_PARENTS,
-  DELETE_PERSON,
-} from "../utils/mutations";
+import { useMutation } from "@apollo/client";
+import { UPDATE_PERSON, DELETE_PERSON } from "../utils/mutations";
+import Auth from "../utils/auth";
 
 const EditPerson = (props) => {
+  const usersPersonId = Auth.getProfile();
   const [updatePerson, { error }] = useMutation(UPDATE_PERSON);
   const [formState, setFormState] = useState({
     name: props.name,
@@ -19,6 +16,13 @@ const EditPerson = (props) => {
   const [displayError, setDisplayError] = useState("");
 
   const deleteById = async () => {
+    if (props.personId == usersPersonId.data.person) {
+      setDisplayError("you cant delete yourself!");
+      setTimeout(() => {
+        setDisplayError("");
+      }, 1000);
+      return;
+    }
     try {
       const deleteThisPerson = await deletePerson({
         variables: { _ID: props.personId },
@@ -27,6 +31,9 @@ const EditPerson = (props) => {
         deleteThisPerson.data.deletePerson === "need to remove children first"
       ) {
         setDisplayError("Deleted person must not have children");
+        setTimeout(() => {
+          setDisplayError("");
+        }, 1000);
       } else props.refresh();
     } catch (e) {
       console.error(e);

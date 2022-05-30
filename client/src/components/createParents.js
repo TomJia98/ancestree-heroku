@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import {
-  ADD_PERSON,
-  UPDATE_PERSON,
-  UPDATE_CHILDREN_AND_PARENTS,
-} from "../utils/mutations";
-import { useQuery, useMutation } from "@apollo/client";
+import { ADD_PERSON, UPDATE_CHILDREN_AND_PARENTS } from "../utils/mutations";
+import { useMutation } from "@apollo/client";
 
 const CreateParents = (props) => {
-  const [ADDPARENTS, setADDPARENTS] = useState(false);
   const [formState, setFormState] = useState({
     name1: "",
     name2: "",
@@ -20,9 +15,7 @@ const CreateParents = (props) => {
   const [updatePersonRels, { error: updateRelsError }] = useMutation(
     UPDATE_CHILDREN_AND_PARENTS
   );
-  // const AddParents = () => {
-  //   setADDPARENTS(true);
-  // };
+
   const isActive = props.isActive;
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -63,7 +56,6 @@ const CreateParents = (props) => {
         <div></div>
       ) : (
         <>
-          {" "}
           <div>
             <div id="createParents">
               <form onSubmit={handleFormSubmit}>

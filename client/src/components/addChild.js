@@ -1,17 +1,11 @@
-import React, { useState, Component, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import {
-  QUERY_SINGLE_PERSON,
-  QUERY_PERSONS,
-  QUERY_PERSONS_NAME_ID,
-} from "../utils/queries";
+import { QUERY_SINGLE_PERSON, QUERY_PERSONS } from "../utils/queries";
 import {
   ADD_PERSON,
   UPDATE_PERSON,
   UPDATE_CHILDREN_AND_PARENTS,
 } from "../utils/mutations";
-import Auth from "../utils/auth";
 import CreatableSelect from "react-select/creatable";
 
 const AddChild = (props) => {
@@ -76,13 +70,14 @@ const AddChild = (props) => {
 
     if (formState.parents.length === 0 && !newParentName) {
       setError("Child must have a parent");
+      setTimeout(() => {
+        setError("");
+      }, 1000);
       return;
     }
 
     try {
       if (newParentName !== null) {
-        console.log(newParentName);
-        console.log("entering the new parent name");
         const newBlankParent = await createPerson({
           //creating the new parent
           variables: {
@@ -92,7 +87,6 @@ const AddChild = (props) => {
           },
         });
         const NewParentId = newBlankParent.data.addPerson._id;
-        console.log(newBlankParent);
         const newParentAndChild = await createPerson({
           //creating the new child and adding the current user and new parent
           variables: {
@@ -120,11 +114,7 @@ const AddChild = (props) => {
             },
           });
         } else {
-          console.log(currentChildren);
-          console.log(newChildId);
           let currentChildren2 = [...currentChildren, newChildId];
-          console.log(currentChildren2);
-
           await updatePerson({
             variables: {
               _ID: props.personId, //updating the current logged in person with new child
@@ -239,6 +229,7 @@ const AddChild = (props) => {
         <br></br>
         <button type="submit">Add Child</button>
       </form>
+      <p>{error}</p>
     </span>
   );
 };

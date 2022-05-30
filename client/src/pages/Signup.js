@@ -16,6 +16,7 @@ const Signup = (props) => {
   if (mutError) {
     console.log(mutError);
   }
+  let [errorSignup, setErrorSignup] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -28,19 +29,20 @@ const Signup = (props) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
     try {
-      console.log("entering try");
       const response = await createUser({
         variables: { ...formState },
       });
+      console.log(response);
       if (!response.data) {
         throw new Error("something went wrong!");
       }
-      console.log(response);
       Auth.login(response.data.addUser.token);
     } catch (e) {
-      console.error(e);
+      setErrorSignup("User with that email already exists");
+      setTimeout(() => {
+        setErrorSignup("");
+      }, 1000);
     }
 
     setFormState({
@@ -118,6 +120,7 @@ const Signup = (props) => {
           Submit
         </button>
       </form>
+      <p>{errorSignup}</p>
     </main>
   );
 };

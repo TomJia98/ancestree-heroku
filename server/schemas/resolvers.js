@@ -193,6 +193,11 @@ const resolvers = {
     },
     addUser: async (parent, { name, email, password, birthday }, context) => {
       try {
+        const findEmail = await User.findOne({ email });
+        if (findEmail) {
+          return "email address already exists";
+        }
+
         console.log("creating new user named " + name);
         const newPerson = await Person.create({
           name,
@@ -220,6 +225,7 @@ const resolvers = {
         return { token, user };
       } catch (err) {
         console.log(err);
+        console.log("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
         return err;
       }
     },
